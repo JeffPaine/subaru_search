@@ -40,35 +40,38 @@ class SubaruSpider(BaseSpider):
             price = c.xpath('.//*[contains(@class, "value")]/text()').extract()[0]
             car['price'] = ''.join(d for d in price if d.isdigit())
 
-            # No VIN
-            try:
-                car['vin'] = c.xpath('.//*/dt[text()="VIN:"]/following-sibling::dd/text()').extract()[0]
-            except IndexError:
-                car['vin'] = None
-
-            # Some cars don't have the color listed
-            try:
-                car['color'] = c.xpath('.//*/dt[text()="Exterior Color:"]/following-sibling::dd/text()').extract()[0]
-            except IndexError:
-                car['color'] = None
-
-            # Some cars don't have mileage listed
-            try:
-                car['miles'] = c.xpath('.//*/dt[text()="Mileage:"]/following-sibling::dd/text()').extract()[0]
-            except IndexError:
-                car['miles'] = None
-
-            # Some cars don't have a transmission listed
-            try:
-                car['transmission'] = c.xpath('.//*/dt[text()="Transmission:"]/following-sibling::dd/text()').extract()[0]
-            except IndexError:
-                car['transmission'] = None
-
-            # Construct url
             # url
             path = c.xpath('.//div/div/h1/a/@href').extract()[0]
             url = urlparse.urlparse(response.url)
             car['url'] = urlparse.urlunsplit([url.scheme, url.netloc, path, None, None])
+
+            # Certain specs are frequently missing, so we need to handle
+            # them with try / except
+            specs = [
+                {
+                    'name': 'vin',
+                    'xpath': './/*/dt[text()="VIN:"]/following-sibling::dd/text()'
+                },
+                {
+                    'name': 'color',
+                    'xpath': './/*/dt[text()="Exterior Color:"]/following-sibling::dd/text()'
+                },
+                {
+                    'name': 'miles',
+                    'xpath': './/*/dt[text()="Mileage:"]/following-sibling::dd/text()'
+                },
+                {
+                    'name': 'transmission',
+                    'xpath': './/*/dt[text()="Transmission:"]/following-sibling::dd/text()'
+                }
+            ]
+
+            for s in specs:
+                try:
+                    car[s['name']] = c.xpath(s['xpath']).extract()[0]
+                except IndexError:
+                    car[s['name']] = None
+
             yield car
 
         # If there's a next page link, parse it for cars as well
