@@ -30,10 +30,12 @@ class SubaruSpider(BaseSpider):
         cars = sel.xpath('//*[contains(@class, "inv-type-used")]')
         for c in cars:
             car = Car()
+
+            # Title and year
             car['title'] = c.xpath('.//div/div/h1/a/text()').extract()[0].strip()
             car['year'] = car['title'][0:4]
 
-            # Remove non-numbers from price
+            # Price, but remove non-number characters.
             # Examples: '$12,000', 'Please Call', etc.
             price = c.xpath('.//*[contains(@class, "value")]/text()').extract()[0]
             car['price'] = ''.join(d for d in price if d.isdigit())
@@ -63,6 +65,7 @@ class SubaruSpider(BaseSpider):
                 car['transmission'] = None
 
             # Construct url
+            # url
             path = c.xpath('.//div/div/h1/a/@href').extract()[0]
             url = urlparse.urlparse(response.url)
             car['url'] = urlparse.urlunsplit([url.scheme, url.netloc, path, None, None])
