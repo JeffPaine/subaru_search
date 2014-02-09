@@ -17,8 +17,9 @@ $ source .venv/bin/activate
 
 ## Usage
 
-1. Retrieve data responsibly by identifying yourself (and your website) by setting `USER_AGENT` at `subaru` > `settings.py`
-1. Add the Subaru dealer website domains you have permission to retrieve data from to the `domains` variable in `subaru` > `spiders` > `subaru_spider.py`
-1. Adjust the `models` variable for the model(s) you'd like to search for e.g. `Outback`
+1. Identify yourself (and your website) by setting `USER_AGENT` at `subaru/settings.py`
+1. In `subaru/spiders/subaru_spider.py`:
+    1. Add the domains you have permission to retrieve data from to the `DOMAINS` variable
+    1. Adjust the `MODELS` variable for the model(s) you'd like to search for e.g. `Outback`
 1. Run `scrapy crawl subaru -o subarus.csv -t csv`
 1. Open up `subarus.csv` to find the car of your dreams!

@@ -6,20 +6,20 @@ from scrapy.http import Request
 
 from ..items import Car
 
+# Add the model(s) below you want to search for
+# e.g. MODELS = ['Outback']
+MODELS = []
+# Enter the domain name(s) here you have permission to retrieve data from
+# e.g. DOMAINS = ['http://www.example.com', 'http://www.example.com']
+DOMAINS = []
+
 
 class SubaruSpider(BaseSpider):
     name = 'subaru'
 
-    # Enter the domain names here you have permission to retrieve data from
-    # e.g. domains = ['http://www.example.com', 'http://www.example.com']
-    domains = []
-
     def start_requests(self):
-        # Add the model below you want to search for
-        # e.g. models = ['Outback']
-        models = []
-        for domain in self.domains:
-            for model in models:
+        for domain in DOMAINS:
+            for model in MODELS:
                 url = urlparse.urljoin(domain, 'used-inventory/index.htm?listingConfigId=auto-used&make=Subaru&model=%s' % model)
                 yield Request(url)
 
