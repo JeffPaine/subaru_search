@@ -1,6 +1,8 @@
 # subaru_search
 
-Subarus are awesome cars. This tool will help you quickly search many Subaru dealer websites at once for subarus for sale by giving you a nice, sortable list of cars to scroll through. No more hunting through dozens of websites!.
+Subarus are awesome cars. This tool will help you quickly search many Subaru dealer websites at once by giving you a nice spreadsheet of cars to easily sort through. No more clicking through dozens of websites!.
+
+You can take the resulting spreadsheet to the next level by calculating [Standard Scores](http://en.wikipedia.org/wiki/Standard_score) for things like mileage and price and then combining them to give you a sortable, comparable value for each car.
 
 **NOTE**: You are responsible for acquiring permission to retrieve data from each source. By using this software you agree to be responsible for the repercussions if you do not.
 
